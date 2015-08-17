@@ -39,6 +39,8 @@ exports.handler = function(event, context) {
 		  //Beware asynchronous server calls.
 		  context.succeed(RETURN);
 	});
+
+	context.succeed(RETURN);
 }
 
 

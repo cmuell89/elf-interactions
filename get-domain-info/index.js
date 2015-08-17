@@ -35,6 +35,8 @@ exports.handler = function(event, context) {
 		  //connect.succeed must be returned to exports.handler last after your interaction code run
 		  context.succeed(RETURN);
 	});
+	
+	context.succeed(RETURN);
 }
 
 
