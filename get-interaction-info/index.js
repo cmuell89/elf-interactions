@@ -11,7 +11,9 @@ exports.handler = function(event, context) {
 	interactionName = event.value;
 	configKeys = event.keys;
 
-	request.get('https://lambda.herokuapp.com/api/v1/d/' + interactionName, {auth: {
+	interactionName = slugify(interactionName);
+
+	request.get('https://lambda.herokuapp.com/api/v1/i/' + interactionName, {auth: {
 		'user': configKeys.user,
 		'pass': configKeys.pass,
 		'sendImmediately' : true
@@ -39,8 +41,18 @@ exports.handler = function(event, context) {
 		  //Beware asynchronous server calls.
 		  context.succeed(RETURN);
 	});
-
-	context.succeed(RETURN);
 }
 
-
+/**
+	 * URL friendly string
+	 *
+	 * @param {String} str
+	 */
+	function slugify(str) {
+	  return str.toString().toLowerCase()
+	    .replace(/\s+/g, '-')        // Replace spaces with -
+	    .replace(/[^\w\-]+/g, '')   // Remove all non-word chars
+	    .replace(/\-\-+/g, '-')      // Replace multiple - with single -
+	    .replace(/^-+/, '')          // Trim - from start of text
+	    .replace(/-+$/, '');         // Trim - from end of text
+	};
