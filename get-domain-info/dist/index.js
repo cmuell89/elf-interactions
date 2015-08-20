@@ -24,9 +24,9 @@ exports.handler = function(event, context) {
 				RETURN = error;
 			}	
 			if(response.statusCode != 200){
-				RETURN = "Error code: " + response.statusCode + ". Please contact system admin or interaction developer for help."
+				RETURN = "Error code: " + response.statusCode + ". Please contact system admin or interaction developer for help.";
 			} else {
-				RETURN = 	'Domain name: ' + body.data.name_display +
+				RETURN =	'Domain name: ' + body.data.name_display +
 							' Description: ' + body.data.description +
 							' Interactions: ' + body.data.interactions +
 							' Keys: ' + body.data.keys +
@@ -37,7 +37,7 @@ exports.handler = function(event, context) {
 		  //connect.succeed must be returned to exports.handler last after your interaction code run
 		  context.succeed(RETURN);
 	});
-}
+};
 
 
 /**

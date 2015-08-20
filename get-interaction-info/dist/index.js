@@ -1,5 +1,5 @@
 // Load any config vars from .env file
-//require('dotenv').config({ silent: true });
+require('dotenv').config({ silent: true });
 var request = require('request');
 
 exports.handler = function(event, context) {
