@@ -13,10 +13,9 @@ exports.handler = function(event, context) {
 
 	interactionName = slugify(interactionName);
 
-	request.get('https://lambda.herokuapp.com/api/v1/i/' + interactionName, {auth: {
-		'user': configKeys.user,
-		'pass': configKeys.pass,
-		'sendImmediately' : true
+	return request.get('https://lambda.herokuapp.com/api/v1/i/' + interactionName, {auth: {
+		'user': configKeys.email,
+		'pass': configKeys.elf_api_key
 		}},
 		function(error, response, body){
 			body = JSON.parse(body);
@@ -24,7 +23,8 @@ exports.handler = function(event, context) {
 				RETURN = error;
 			}	
 			if(response.statusCode != 200){
-				RETURN = "Error code: " + response.statusCode + ". Please contact system admin or interaction developer for help."
+				RETURN = "Error code: " + response.statusCode + ". Please contact system admin or interaction developer for help.";
+
 			} else {
 				RETURN = 	'Interaction name: ' + body.data.name_display +
 							'Domain: ' + body.data.domain
@@ -37,9 +37,9 @@ exports.handler = function(event, context) {
 							'Code: ' + body.data.code;
 			}
 
-		  //connect.succeed must be returned to exports.handler last after your interaction code run. 
+		  //context.succeed must be returned to exports.handler last after your interaction code run. 
 		  //Beware asynchronous server calls.
-		  context.succeed(RETURN);
+		  return context.succeed(RETURN);
 	});
 }
 
@@ -55,4 +55,6 @@ exports.handler = function(event, context) {
 	    .replace(/\-\-+/g, '-')      // Replace multiple - with single -
 	    .replace(/^-+/, '')          // Trim - from start of text
 	    .replace(/-+$/, '');         // Trim - from end of text
-	};
+
+	}
+

@@ -14,9 +14,8 @@ exports.handler = function(event, context) {
 
 
 	return request.get('https://lambda.herokuapp.com/api/v1/d/' + domainName, {auth: {
-
-		'user': configKeys.user,
-		'pass': configKeys.pass,
+		'user': configKeys.email,
+		'pass': configKeys.elf_api_key,
 		'sendImmediately' : true
 		}},
 		function(error, response, body){

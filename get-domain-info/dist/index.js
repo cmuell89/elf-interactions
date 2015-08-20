@@ -1,5 +1,6 @@
 // Load any config vars from .env file
 require('dotenv').config({ silent: true });
+
 var request = require('request');
 
 exports.handler = function(event, context) {
@@ -11,11 +12,10 @@ exports.handler = function(event, context) {
 	domainName = event.value;
 	configKeys = event.keys;
 
-	domainName = slugify(domainName);
 
-	request.get('https://lambda.herokuapp.com/api/v1/d/' + domainName, {auth: {
-		'user': configKeys.user,
-		'pass': configKeys.pass,
+	return request.get('https://lambda.herokuapp.com/api/v1/d/' + domainName, {auth: {
+		'user': configKeys.email,
+		'pass': configKeys.elf_api_key,
 		'sendImmediately' : true
 		}},
 		function(error, response, body){
@@ -26,16 +26,17 @@ exports.handler = function(event, context) {
 			if(response.statusCode != 200){
 				RETURN = "Error code: " + response.statusCode + ". Please contact system admin or interaction developer for help.";
 			} else {
-				RETURN =	'Domain name: ' + body.data.name_display +
-							' Description: ' + body.data.description +
-							' Interactions: ' + body.data.interactions +
-							' Keys: ' + body.data.keys +
-							' User: ' + body.data.user +
-							' Pending Interactions: ' + body.data.pending_interactions;
+
+				RETURN = 	'Domain name: ' + body.data.name_display + '\r\n' +
+							'Description: ' + body.data.description + '\r\n' +
+							'Interactions: ' + body.data.interactions + '\r\n' +
+							'Keys: ' + body.data.keys + '\r\n' +
+							'User: ' + body.data.user + '\r\n' +
+							'Pending Interactions: ' + body.data.pending_interactions;
 			}
 
 		  //connect.succeed must be returned to exports.handler last after your interaction code run
-		  context.succeed(RETURN);
+		  return context.succeed(RETURN);
 	});
 };
 
