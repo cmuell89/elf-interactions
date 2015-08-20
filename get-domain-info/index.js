@@ -1,5 +1,6 @@
 // Load any config vars from .env file
 require('dotenv').config({ silent: true });
+
 var request = require('request');
 
 exports.handler = function(event, context) {
@@ -11,7 +12,7 @@ exports.handler = function(event, context) {
 	domainName = event.value;
 	configKeys = event.keys;
 
-	request.get('https://lambda.herokuapp.com/api/v1/d/' + domainName, {auth: {
+	return request.get('https://lambda.herokuapp.com/api/v1/d/' + domainName, {auth: {
 		'user': configKeys.user,
 		'pass': configKeys.pass,
 		'sendImmediately' : true
@@ -24,16 +25,16 @@ exports.handler = function(event, context) {
 			if(response.statusCode != 200){
 				RETURN = "Error code: " + response.statusCode
 			} else {
-				RETURN = 	'Domain name: ' + body.data.name_display +
-							' Description: ' + body.data.description +
-							' Interactions: ' + body.data.interactions +
-							' Keys: ' + body.data.keys +
-							' User: ' + body.data.user +
-							' Pending Interactions: ' + body.data.pending_interactions;
+				RETURN = 	'Domain name: ' + body.data.name_display + '\r\n' +
+							'Description: ' + body.data.description + '\r\n' +
+							'Interactions: ' + body.data.interactions + '\r\n' +
+							'Keys: ' + body.data.keys + '\r\n' +
+							'User: ' + body.data.user + '\r\n' +
+							'Pending Interactions: ' + body.data.pending_interactions;
 			}
 
 		  //connect.succeed must be returned to exports.handler last after your interaction code run
-		  context.succeed(RETURN);
+		  return context.succeed(RETURN);
 	});
 }
 
