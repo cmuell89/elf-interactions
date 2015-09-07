@@ -13,7 +13,7 @@ exports.handler = function(event, context) {
 
 	interactionName = slugify(interactionName);
 
-	return request.get('https://lambda.herokuapp.com/api/v1/i/' + interactionName, {auth: {
+	request.get('https://lambda.herokuapp.com/api/v1/i/' + interactionName, {auth: {
 		'user': configKeys.email,
 		'pass': configKeys.elf_api_key
 		}},
@@ -26,15 +26,15 @@ exports.handler = function(event, context) {
 				RETURN = "Error code: " + response.statusCode + ". Please contact system admin or interaction developer for help.";
 
 			} else {
-				RETURN = 	'Interaction name: ' + body.data.name_display +
-							'Domain: ' + body.data.domain
-							'Description: ' + body.data.output_description +
-							'Repository URL: ' + body.data.repo_url +
-							'Keys: ' + body.data.keys +
-							'User: ' + body.data.user +
-							'Collaborators: ' + body.data.collaborators +
-							'Upvotes: ' + body.data.upvotes +
-							'Code: ' + body.data.code;
+				RETURN = 	'Interaction name: ' + body.data.name_display + '\r\n' +
+							'Domain: ' + body.data.domain + '\r\n' +
+							'Description: ' + body.data.output_description + '\r\n' +
+							'Repository URL: ' + body.data.repo_url + '\r\n' +
+							'Keys: ' + body.data.keys + '\r\n' +
+							'User: ' + body.data.user + '\r\n' +
+							'Collaborators: ' + body.data.collaborators + '\r\n' +
+							'Upvotes: ' + body.data.upvotes + '\r\n' +
+							'Code: ' + body.data.code + '\r\n' ;
 			}
 
 		  //context.succeed must be returned to exports.handler last after your interaction code run. 

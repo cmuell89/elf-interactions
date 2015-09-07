@@ -13,7 +13,7 @@ exports.handler = function(event, context) {
 	configKeys = event.keys;
 
 
-	return request.get('https://lambda.herokuapp.com/api/v1/d/' + domainName, {auth: {
+	request.get('https://lambda.herokuapp.com/api/v1/d/' + domainName, {auth: {
 		'user': configKeys.email,
 		'pass': configKeys.elf_api_key,
 		'sendImmediately' : true

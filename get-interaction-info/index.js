@@ -13,7 +13,7 @@ exports.handler = function(event, context) {
 
 	interactionName = slugify(interactionName);
 
-	return request.get('https://lambda.herokuapp.com/api/v1/i/' + interactionName, {auth: {
+	request.get('https://lambda.herokuapp.com/api/v1/i/' + interactionName, {auth: {
 		'user': configKeys.email,
 		'pass': configKeys.elf_api_key
 		}},
